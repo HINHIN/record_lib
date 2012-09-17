@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  albom_id: 1
+  time: 1
+  name: MyString
+  remix: false
+  mesh_up: false
+
+two:
+  albom_id: 1
+  time: 1
+  name: MyString
+  remix: false
+  mesh_up: false

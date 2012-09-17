@@ -11,8 +11,9 @@
 development:
   adapter: mysql2
   encoding: utf8
+  collation: utf8_general_ci
   reconnect: false
-  database: record_library_development
+  database: record_lib_development
   pool: 5
   username: root
   password: root
@@ -24,8 +25,9 @@ development:
 test:
   adapter: mysql2
   encoding: utf8
+  collation: utf8_general_ci
   reconnect: false
-  database: record_library_test
+  database: record_lib_test
   pool: 5
   username: root
   password:
@@ -34,8 +36,9 @@ test:
 production:
   adapter: mysql2
   encoding: utf8
+  collation: utf8_general_ci
   reconnect: false
-  database: record_library_production
+  database: record_lib_production
   pool: 5
   username: root
   password:
