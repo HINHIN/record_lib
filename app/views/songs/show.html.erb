@@ -1,2 +1,87 @@
-<h1>Songs#show</h1>
-<p>Find me in app/views/songs/show.html.erb</p>
+<h1>Song: <%=  @song.name %></h1>
+<table class="songs_info">
+  <tr>
+    <td>
+      name
+    </td>
+    <td>
+      <%=  @song.name %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      time
+    </td>
+    <td>
+      <%=  GetTimeFormat(@song.time) %>
+    </td>
+  </tr>
+  <% if (!@albom.nil?) %>
+  <tr>
+    <td>
+      albom
+    </td>
+    <td>
+      <%= link_to @albom.name, :controller => "alboms", :action => "show", :id => @albom.id  %>
+    </td>
+  </tr>
+  <% end %>
+  <% if (!@artists.empty?) %>
+    <tr>
+      <td>
+        artists
+      </td>
+      <td>
+        <% @artists.each do |artist| %>
+          <%= link_to artist.name, :controller => "artists", :action => "show", :id => artist.id  %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<% if (!@remixes.empty?) %>
+  <h2>Remixes</h1>
+  <%
+  @table_class = 'remixes'
+  @songs = @remixes
+  %>
+  <%= render 'layouts/songs_list' %>
+<% end %>
+<% if (!@meshs.empty?) %>
+  <h2>Mesh up</h1>
+  <%
+  @table_class = 'mesh_up'
+  @songs = @meshs
+  %>
+  <%= render 'layouts/songs_list' %>
+<% end %>
+<% if (!@source_remix.empty?) %>
+  <h2>Source remix</h1>
+  <%
+  @table_class = 'sourse_remix'
+  @songs = @source_remix
+  %>
+  <%= render 'layouts/songs_list' %>
+<% end %>
+<% if (!@source_mesh_up.empty?) %>
+  <h2>Source mesh up</h1>
+  <%
+  @table_class = 'sourse_mesh_up'
+  @songs = @source_mesh_up
+  %>
+  <%= render 'layouts/songs_list' %>
+<% end %>
+
+
+<pre>
+  
+
+    song <%=  @song.inspect %>
+    source_remix <%=  @source_remix.inspect %>
+    source_mesh_up <%=  @source_mesh_up.inspect %>
+    remixes <%=  @remixes.inspect %>
+    meshs <%=  @meshs.inspect %>
+    albom <%=  @albom.inspect %>
+    artists <%=  @artists.inspect %>
+
+</pre>

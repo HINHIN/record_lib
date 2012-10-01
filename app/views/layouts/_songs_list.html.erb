@@ -1,0 +1,41 @@
+<table class="<%= @table_class %>">
+    <thead>
+      <th>
+        name
+      </th>
+      <th>
+        albom
+      </th>
+      <th>
+        artist
+      </th>
+      <th>
+        time
+      </th>
+    </thead>
+    <tbody>
+      <% @songs.each do |song| %>
+        <tr>
+          <td>
+            <%= link_to song.name, :controller => "songs", :action => "show", :id => song.id  %>
+          </td>
+          <td>
+            <% if(!song.albom.nil?) %>
+              <%= link_to song.albom.name, :controller => "alboms", :action => "show", :id => song.albom.id  %>
+            <% end %>
+          </td>
+          <td>
+            <%
+            if(!song.artists.nil?)
+              song.artists.each do |artist| %>
+                <%= link_to artist.name, :controller => "artists", :action => "show", :id => artist.id  %>
+              <% end
+            end %>
+          </td>
+          <td>
+             <%= GetTimeFormat(song.time)  %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

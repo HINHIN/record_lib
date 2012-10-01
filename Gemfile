@@ -6,6 +6,8 @@ gem 'rails', '3.2.8'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
+gem 'will_paginate'
+gem 'breadcrumbs_on_rails'
 group :development do
   gem 'annotate', '2.4.0'
 end

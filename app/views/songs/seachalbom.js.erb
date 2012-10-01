@@ -1,0 +1,11 @@
+UserNew.albom = '<%=j params[:albom_name] %>';
+$('div.field_albom > div.albom_find').html('<%=j render 'layouts/js_alboms_list' %>');
+$('div.field_albom > div.albom_find').show();
+$('div.field_albom > div.albom_find > div.albom_poup').click(function(){
+        $('input#new_song_albom').val($(this).find('>span.albomname').text());
+        UserNew.albom = $('input#new_song_albom').val();
+        if($(this).find('>span.artist').text()!=''){
+            $('input#new_song_artists').val($(this).find('>span.artist').text()+',');
+        }
+        $('div.field_albom > div.albom_find').hide();
+    });

@@ -1,28 +1,20 @@
 RecordLib::Application.routes.draw do
+  
   get "songs/new"
-
+  post "songs/new"
+  get "songs/seachalbom"
   get "songs/show"
-
   get "songs/list"
-
   get "songs/delete"
-
   get "alboms/new"
-
   get "alboms/show"
-
   get "alboms/list"
-
   get "alboms/delete"
-
   get "artists/delete"
-
   get "artists/new"
-
   get "artists/show"
-
   get "artists/list"
-
+  root    :to => 'songs#list'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

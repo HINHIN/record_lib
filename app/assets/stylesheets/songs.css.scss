@@ -1,3 +1,28 @@
 // Place all the styles related to the Songs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+table.songs{
+    width: 100%;
+    border-color: rgb(0,0,0);
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+table.songs td { 
+    padding: 5px; 
+    border: 1px solid black;
+}
+table.songs th{ 
+    padding: 5px; 
+    border: 1px solid black;
+}
+div.field_albom{
+    position: relative;
+}
+div.field_albom div.albom_find{ 
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    background-color: rgb(255,255,255);
+    z-index: 10;
+}

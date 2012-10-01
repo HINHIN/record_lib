@@ -15,7 +15,7 @@ class Song < ActiveRecord::Base
   has_many :source_mesh_up, :through => :mesh_up_rev , :source => :song
   
   has_many :remix, :foreign_key => "song_id", :dependent => :destroy
-  has_many :meshs, :through => :remix , :source => :source
+  has_many :remixes, :through => :remix , :source => :source
   
   has_many :remix_rev, :foreign_key => "source_id", :class_name => "Remix", :dependent => :destroy
   has_many :source_remix, :through => :remix_rev , :source => :song

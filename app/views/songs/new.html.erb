@@ -1,2 +1,54 @@
+<h1>New song</h1>
+
+<%= form_tag(:controller => "songs", :action => "new", :method => "post") do |f| %>
+  <div class="field">
+    <%= label_tag( :name, 'Name') %><br />
+    <%= text_field_tag 'new_song[name]', @new_song[:name]%>
+  </div>
+  <div class="field">
+    <%= label_tag(:time,'Time') %><br />
+    <%= text_field_tag 'new_song[time]', @new_song[:time] %>
+  </div>
+  <div class="field field_albom">
+    <%= label_tag( :albom,'Albom') %><br />
+    <%= text_field_tag 'new_song[albom]', @new_song[:albom] %>
+    <div class="albom_find">
+      
+    </div>
+  </div>
+  <div class="field">
+    <%= label_tag(:artists,'Artists') %><br />
+    <%= text_field_tag 'new_song[artists]', @new_song[:artists]%>
+  </div>
+  <div class="field">
+    <%= label_tag( :is_remix,'Remix') %><br />
+    <%= check_box_tag 'new_song[is_remix]','1',@new_song[:is_remix]%>
+  </div>
+  <div class="field">
+    <%= label_tag( :is_mesh_up,'Mesh Up') %><br />
+    <%= check_box_tag 'new_song[is_mesh_up]','1',@new_song[:is_mesh_up] %>
+  </div>
+  <div class="actions">
+    <%= submit_tag("Add") %>
+  </div>
+<% end %>
+<script>
+  var UserNew = {albom:'<%=j @new_song[:albom]%>'}
+  $(function(){
+    $('input#new_song_albom').keyup(function(){
+      if ($.trim($(this).val())==UserNew.albom) return;
+      $.ajax({
+          metod:'POST',
+          url: "<%= url_for :controller => 'songs', :action => 'seachalbom'%>",
+          data: ({albom_name : $.trim($(this).val()),method:'get'}),
+          dataType: 'script'
+        });
+    });
+    $('body').click(function(){
+        $('div.field_albom > div.albom_find').hide();
+      });
+  });
+
+</script>
 <h1>Songs#new</h1>
 <p>Find me in app/views/songs/new.html.erb</p>
