@@ -1,6 +1,6 @@
 <% @alboms.each do |albom| %>
-<div class="albom_poup">
-    <span class="albomname"><%= html_escape albom.name %></span>
+<div class="albom_popup">
+    <span class="albomname" albom_id="<%= albom.id %>"><%=  albom.name %></span>
     <%
     if(albom.compilation)
     %>
@@ -10,7 +10,7 @@
     %>
     <span class="artist"><%
     i = 0;
-    albom.artists.each do |artist|%><%= ((i==0)? '':', ')+(html_escape artist.name) %><%
+    albom.artists.each do |artist|%><%= ((i==0)? '':', ')+(artist.name) %><%
     i += 1;
     end %></span>
     <%

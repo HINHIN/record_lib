@@ -26,3 +26,26 @@ div.field_albom div.albom_find{
     background-color: rgb(255,255,255);
     z-index: 10;
 }
+div.field_artist{
+    position: relative;
+}
+div.field_artist div.artist_find{ 
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    background-color: rgb(255,255,255);
+    z-index: 10;
+}
+
+div.field_remix{
+    position: relative;
+}
+div.field_remix div.remix_find{ 
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    background-color: rgb(255,255,255);
+    z-index: 10;
+}

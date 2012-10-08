@@ -1,0 +1,26 @@
+<% @table_class = 'popup' %>
+SongNew.song = '<%=j params[:song_name] %>';
+$('div.field_remix > div > div.remix_find').html('<%=j render 'songs/songs_list' %>');
+$('div.field_remix > div > div.remix_find').show();
+$('div.field_remix > div > div.remix_find tr').click(function(){
+        new_val = $('input#new_song_remixes').val().split(',');
+        new_val.push($(this).attr('song_id'));
+        $('input#new_song_remixes').val(new_val.join(','));
+        $(this).appendTo( $('table.remix tbody'));
+        $('div.field_remix > div.remix_fined table.remix tr').unbind('click');
+        $('div.field_remix > div.remix_fined table.remix tr').click(function(){
+                del_song_id = $(this).attr('song_id');
+                remix_ids = $('input#new_song_remixes').val().split(',');
+                new_remix_id = [];
+                for ( i in remix_ids){
+                  if(remix_ids[i]!=del_song_id){
+                    new_remix_id.push(remix_ids[i]);
+                  }
+                }
+                $('input#new_song_remixes').val(new_remix_id.join(','));
+                $(this).remove();
+              });
+        SongNew.song = '';
+        $('input#remix').val('');
+        $('div.field_remix > div > div.remix_find').hide();
+    });

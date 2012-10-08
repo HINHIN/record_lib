@@ -1,6 +1,19 @@
 <h1>New song</h1>
-
-<%= form_tag(:controller => "songs", :action => "new", :method => "post") do |f| %>
+<% if !@error_message.nil? %>
+  <% if @error_message.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@error_message.count, "error") %>
+          prohibited this <%= @error_obj%> from being saved:</h2>
+      <p>There were problems with the following fields:</p>
+      <ul>
+      <% @error_message.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>
+<%= form_tag(:controller => "songs", :action => "new", :method => "post",:id=>@new_song[:id]) do |f| %>
   <div class="field">
     <%= label_tag( :name, 'Name') %><br />
     <%= text_field_tag 'new_song[name]', @new_song[:name]%>
@@ -12,31 +25,69 @@
   <div class="field field_albom">
     <%= label_tag( :albom,'Albom') %><br />
     <%= text_field_tag 'new_song[albom]', @new_song[:albom] %>
+     <%= hidden_field_tag('new_song[albom_id]', @new_song[:albom_id]) %>
     <div class="albom_find">
       
     </div>
   </div>
-  <div class="field">
+  <div class="field field_artist">
     <%= label_tag(:artists,'Artists') %><br />
     <%= text_field_tag 'new_song[artists]', @new_song[:artists]%>
+    <div class="artist_find">
+      
+    </div>
   </div>
-  <div class="field">
-    <%= label_tag( :is_remix,'Remix') %><br />
+  <div class="field field_remix">
+    <%= label_tag( 'new_song[is_remix]','Remix') %><br />
     <%= check_box_tag 'new_song[is_remix]','1',@new_song[:is_remix]%>
+    <div class="remix_fined" <% if (@new_song[:is_remix] == false) %> style="display:none;"<% end %> >
+      <%= hidden_field_tag('new_song[remixes]', @new_song[:remixes]) %>
+      <%
+      @table_class = 'remix'
+      @songs = @remix
+      %>
+      <%= render 'songs/songs_list' %>
+      
+    </div>
+    <div style="position: relative; <% if (@new_song[:is_remix] == false) %> display:none; <% end %> ">
+      <%= text_field_tag 'remix'%>
+      <div class="remix_find">
+        
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= label_tag( :is_mesh_up,'Mesh Up') %><br />
+  <div class="field field_mesh_up">
+    <%= label_tag( 'new_song[is_mesh_up]','Mesh Up') %><br />
     <%= check_box_tag 'new_song[is_mesh_up]','1',@new_song[:is_mesh_up] %>
+     <div class="mesh_up_fined" <% if (@new_song[:is_mesh_up] == false) %> style="display:none;"<% end %> >
+      <%= hidden_field_tag('new_song[mesh_ups]', @new_song[:mesh_ups]) %>
+      <%
+      @table_class = 'mesh_ups'
+      @songs = @mesh_ups
+      %>
+      <%= render 'songs/songs_list' %>
+      
+    </div>
+    <div style="position: relative; <% if (@new_song[:is_mesh_up] == false) %> display:none; <% end %> ">
+      <%= text_field_tag 'mesh_up'%>
+      <div class="mesh_up_find">
+        
+      </div>
+    </div>
   </div>
   <div class="actions">
     <%= submit_tag("Add") %>
   </div>
 <% end %>
 <script>
-  var UserNew = {albom:'<%=j @new_song[:albom]%>'}
+  var SongNew = {
+      albom:'<%=j @new_song[:albom]%>',
+      artist: '<%=j @new_song[:artists]%>',
+      song:''
+    }
   $(function(){
     $('input#new_song_albom').keyup(function(){
-      if ($.trim($(this).val())==UserNew.albom) return;
+      if ($.trim($(this).val())==SongNew.albom) return;
       $.ajax({
           metod:'POST',
           url: "<%= url_for :controller => 'songs', :action => 'seachalbom'%>",
@@ -44,11 +95,124 @@
           dataType: 'script'
         });
     });
+    $('input#new_song_artists').keyup(function(){
+      artists = $.trim($(this).val()).split(',');
+      for (i in artists){
+        artists[i]=$.trim(artists[i]);
+      }
+      artist_name = artists[i];
+      if (artist_name==SongNew.artist) return;
+      if(artist_name == '') return;
+      if(i == 0){
+        fined_artists = [];
+      }else{
+        fined_artists = artists.splice (i-1,1);
+      }
+      $.ajax({
+          metod:'POST',
+          url: "<%= url_for :controller => 'songs', :action => 'seachartist'%>",
+          data: ({artist_name : artist_name, fined_artists:fined_artists, method:'get'}),
+          dataType: 'script'
+        });
+    });
+    $('input#new_song_is_remix').change(function(){
+        try{
+          if($(this).prop("checked")){
+            checked = true;
+          }else{
+            checked = false;
+          }
+        }
+        catch (e){
+          if($(this).attr("checked")){
+            checked = true;
+          }else{
+            checked = false;
+          }
+        }
+        if(checked){
+          $('div.field_remix > div').show();
+        }else{
+          $('div.field_remix > div').hide();
+        }
+      });
+    $('div.field_remix > div.remix_fined table.remix tr').click(function(){
+        del_song_id = $(this).attr('song_id');
+        remix_ids = $('input#new_song_remixes').val().split(',');
+        new_remix_id = [];
+        for ( i in remix_ids){
+          if(remix_ids[i]!=del_song_id){
+            new_remix_id.push(remix_ids[i]);
+          }
+        }
+        $('input#new_song_remixes').val(new_remix_id.join(','));
+        $(this).remove();
+      });
+    $('input#remix').keyup(function(){
+      remix = $.trim($(this).val());
+      
+      if (remix==SongNew.song||remix=='') return;
+      
+      $.ajax({
+          metod:'POST',
+          url: "<%= url_for :controller => 'songs', :action => 'seachsongremix'%>",
+          data: ({song_name : remix, fined_songs:$('input#new_song_remixes').val().split(','), method:'get'}),
+          dataType: 'script'
+        });
+    });
+    $('input#new_song_is_mesh_up').change(function(){
+        try{
+          if($(this).prop("checked")){
+            checked = true;
+          }else{
+            checked = false;
+          }
+        }
+        catch (e){
+          if($(this).attr("checked")){
+            checked = true;
+          }else{
+            checked = false;
+          }
+        }
+        if(checked){
+          $('div.field_mesh_up > div').show();
+        }else{
+          $('div.field_mesh_up > div').hide();
+        }
+      });
+    $('div.field_mesh_up > div.mesh_up_fined table.mesh_ups tr').click(function(){
+        del_song_id = $(this).attr('song_id');
+        mesh_up_ids = $('input#new_song_mesh_ups').val().split(',');
+        new_mesh_up_id = [];
+        for ( i in mesh_up_ids){
+          if(mesh_up_ids[i]!=del_song_id){
+            new_mesh_up_id.push(mesh_up_ids[i]);
+          }
+        }
+        $('input#new_song_mesh_ups').val(new_mesh_up_id.join(','));
+        $(this).remove();
+      });
+    $('input#mesh_up').keyup(function(){
+      mesh_up = $.trim($(this).val());
+      if (mesh_up==SongNew.song||mesh_up=='') return;
+      $.ajax({
+          metod:'POST',
+          url: "<%= url_for :controller => 'songs', :action => 'seachsongmesup'%>",
+          data: ({song_name : mesh_up, fined_songs:$('input#new_song_mesh_ups').val().split(','), method:'get'}),
+          dataType: 'script'
+        });
+    });
     $('body').click(function(){
         $('div.field_albom > div.albom_find').hide();
+        $('div.field_artist > div.artist_find').hide();
+        $('div.field_remix > div > div.remix_find').hide();
+        $('div.field_mesh_up > div > div.mesh_up_find').hide();
       });
   });
 
 </script>
-<h1>Songs#new</h1>
-<p>Find me in app/views/songs/new.html.erb</p>
+<%=  @song.inspect %><br>
+<%=  @albom.inspect %><br>
+<%=  @artists.inspect %><br>
+<%=  @new_song.inspect %><br>

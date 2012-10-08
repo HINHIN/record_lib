@@ -15,22 +15,20 @@
     </thead>
     <tbody>
       <% @songs.each do |song| %>
-        <tr id="song_<%=song.id%>">
+        <tr song_id="<%= song.id %>">
           <td>
-            <%= link_to song.name, :controller => "songs", :action => "show", :id => song.id  %>
-            <%= link_to 'edit', :controller => "songs", :action => "new", :id => song.id  %>
-            <%= link_to  'delete', {:controller => "songs", :action => "delete", :id => song.id},:remote=>true %>
+            <%= song.name%>
           </td>
           <td>
             <% if(!song.albom.nil?) %>
-              <%= link_to song.albom.name, :controller => "alboms", :action => "show", :id => song.albom.id  %>
+              <%= song.albom.name %>
             <% end %>
           </td>
           <td>
             <%
             if(!song.artists.nil?)
               song.artists.each do |artist| %>
-                <%= link_to artist.name, :controller => "artists", :action => "show", :id => artist.id  %>
+                <%= artist.name %>
               <% end
             end %>
           </td>

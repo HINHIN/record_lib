@@ -8,6 +8,7 @@ gem 'rails', '3.2.8'
 gem 'mysql2'
 gem 'will_paginate'
 gem 'breadcrumbs_on_rails'
+gem 'will_paginate'
 group :development do
   gem 'annotate', '2.4.0'
 end

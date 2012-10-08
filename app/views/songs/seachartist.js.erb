@@ -1,0 +1,13 @@
+SongNew.artist = '<%=j params[:artist_name] %>';
+$('div.field_artist > div.artist_find').html('<%=j render 'layouts/js_artists_list' %>');
+$('div.field_artist > div.artist_find').show();
+$('div.field_artist > div.artist_find > div.artist_popup').click(function(){
+        artist_new = $(this).find('>span.artistname').text();
+        artists = $.trim($('input#new_song_artists').val()).split(',');
+        for (i in artists){
+            artists[i]=$.trim(artists[i]);
+        }
+        artists[i] = artist_new;
+        $('input#new_song_artists').val(artists.join(', ')+', ');
+        $('div.field_artist > div.artist_find').hide();
+    });

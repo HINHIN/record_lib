@@ -2,7 +2,10 @@ RecordLib::Application.routes.draw do
   
   get "songs/new"
   post "songs/new"
+  get "songs/seachsongremix"
+  get "songs/seachsongmesup"
   get "songs/seachalbom"
+  get "songs/seachartist"
   get "songs/show"
   get "songs/list"
   get "songs/delete"
